@@ -1,0 +1,30 @@
+Your job is:
+(1) understand Verilog spec. Work out what additions to current Nearly Grammar are needed to implement Verilog properly
+(2) Implement bigger AST from new Grammar
+(3) * work out how to do better error messages 
+(4) add hardware gen for the new constructs
+(5) (?) test it !! (do golden verilog testing against your face ipen source verilog simulator e.g. Icarus. (not sure if that is one at the moment).
+
+Verilog extensions needed:
+(1) module constant parameters
+(2) arrays - big deal. how much???
+(3) ??? Not sure what else
+
+Things to do:
+add lexer support to keywords including  wire, reg etc. remove repeats in lexer
+add
+
+pre-ast checks: syntax error
+post-ast checks: logical error
+
+step1: write grammar to support arrays declaration and such that they can be connected, ignore error checks where bit width misallign etc
+
+step2: implement error check on ast such that the bit width must allign, else report error
+
+
+
+Bib:
+
+
+
+

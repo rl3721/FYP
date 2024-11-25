@@ -1,0 +1,128 @@
+{
+  "name": "issie",
+  "version": "5.2.1",
+  "description": "Schematic editor and Simulator",
+  "homepage": "https://github.com/tomcl/issie",
+  "bugs": {
+    "url": "https://github.com/tomcl/issie/issues"
+  },
+  "license": "LGPL-3.0-or-later",
+  "author": "tomcl",
+  "main": "build/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tomcl/issie.git"
+  },
+  "scripts": {
+    "clean-dev-mac": "sudo killall -9 node && sudo killall -9 dotnet && sudo killall -9 issie",
+    "clean-dev-win": "taskkill /f /im node.exe && taskkill /f /im dotnet.exe && taskkill /f /im issie.exe",
+    "compile": "dotnet fable src/Main -s && dotnet fable src/Renderer -s --define PRODUCTION",
+    "debug": "dotnet fable watch src/Main -s --run npm run debugrenderer",
+    "debugrenderer": "dotnet fable watch src/Renderer -s --define ASSERTS --run npm run start",
+    "dev": "dotnet fable watch src/Main -s --run npm run devrenderer",
+    "devrenderer": "dotnet fable watch src/Renderer -s --run npm run startlog",
+    "start": "cross-env NODE_ENV=development node scripts/start.js",
+    "startlog": "cross-env NODE_ENV=development ELECTRON_ENABLE_LOGGING=true node scripts/start.js",
+    "build": "cross-env NODE_ENV=production ELECTRON_ENABLE_LOGGING=true node scripts/build.js",
+    "pack": "npm run compile && npm run build && electron-builder --dir",
+    "dist": "npm run compile && npm run build && electron-builder",
+    "buildonly": "electron-builder",
+    "compile-sass": "cd src/renderer/scss && node-sass main.scss main.css",
+    "testcompiler": "cd src/Renderer/VerilogComponent/test && dotnet fable --noCache && node testParser.fs.js"
+  },
+  "build": {
+    "appId": "ISSIE",
+    "files": [
+      "build/**/*"
+    ],
+    "extraFiles": [
+      {
+        "from": "static",
+        "to": "resources/static",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "appx": {
+      "applicationId": "ISSIE"
+    },
+    "win": {
+      "icon": "public/icon.ico",
+      "target": "zip"
+    },
+    "linux": {
+      "icon": "public/icon.png",
+      "target": "zip"
+    },
+    "mac": {
+      "category": "public.app-category.productivity",
+      "entitlements": "public/entitlements.mac.plist",
+      "entitlementsInherit": "./public/entitlements.mac.plist",
+      "identity": "F7735AA14D8A32CE021D86077797AE9457C53603",
+      "icon": "public/icon.icns",
+      "target": [
+        "dmg"
+      ],
+      "hardenedRuntime": true,
+      "provisioningProfile": "embedded.provisionprofile"
+    },
+    "dmg": {
+      "icon": false
+    },
+    "afterAllArtifactBuild": "scripts/afterSignHook.js"
+  },
+  "dependencies": {
+    "@electron/remote": "^2",
+    "async-mutex": "^0.4",
+    "bulma": "^0.9",
+    "uuid": "10.0.0",
+    "bulma-tooltip": "^3",
+    "core-js": "^3",
+    "cross-zip": "^3",
+    "font-awesome": "^4",
+    "nearley-unparse": "^1.0.1",
+    "npm": "^10.2.0",
+    "react-tooltip": "^5",
+    "source-map-support": "^0.5",
+    "usb": "^2.4.3"
+  },
+  "devDependencies": {
+    "@electron/remote": "^2",
+    "babel-loader": "^8",
+    "babel-preset-minify": "^0.5",
+    "bufferutil": "^4",
+    "classnames": "^2",
+    "cross-env": "^7",
+    "css-loader": "^6",
+    "del": "6.1.1",
+    "dotenv": "^1",
+    "electron": "32.0.2",
+    "electron-builder": "25.0.5",
+    "electron-builder-notarize": "^1",
+    "electron-notarize": "^1",
+    "enzyme": "^3",
+    "eslint": "9.2.0",
+    "file-loader": "^6",
+    "html-webpack-plugin": "^5",
+    "jest": "29.7.0",
+    "loglevel": "^1",
+    "mini-css-extract-plugin": "^2",
+    "nearley": "^2.20.1",
+    "prettier": "^2",
+    "prismjs": "^1.15",
+    "react": "^17",
+    "react-dom": "17",
+    "react-router-dom": "^5",
+    "react-simple-code-editor": "0.14.1",
+    "source-map-loader": "^1",
+    "style-loader": "^4",
+    "terser-webpack-plugin": "^5",
+    "url-loader": "^4",
+    "utf-8-validate": "^5",
+    "webpack": "^5",
+    "webpack-cli": "^5",
+    "webpack-dev-server": "^5"
+  },
+  "private": true
+}
